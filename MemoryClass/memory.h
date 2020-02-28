@@ -10,7 +10,8 @@ typedef uintptr_t PTR;
 
 namespace Mem
 {
-	void CharToWChar(char str[], wchar_t buffer[]);
+	void CharToWChar(char str[], wchar_t buffer[], size_t max_size);
+	void WCharToChar(wchar_t wstr[], char buffer[], size_t max_size);
 	unsigned int FileToArrayOfBytes(char* filepath, char** pbuffer);
 	unsigned int FileToArrayOfBytes(wchar_t* filepath, char** pbuffer);
 	namespace Ex

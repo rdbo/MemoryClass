@@ -2,10 +2,29 @@
 
 //Global
 
-void Mem::CharToWChar(char str[], wchar_t buffer[])
+void Mem::CharToWChar(char str[], wchar_t buffer[], size_t max_size)
 {
 	//use _CRT_SECURE_NO_WARNINGS
-	mbstowcs(buffer, str, MAX_PATH);
+	mbstowcs(buffer, str, max_size);
+}
+
+void Mem::WCharToChar(wchar_t wstr[], char buffer[], size_t max_size)
+{
+	//use _CRT_SECURE_NO_WARNINGS
+	wcstombs(buffer, wstr, max_size);
+}
+
+unsigned int Mem::FileToArrayOfBytes(wchar_t* filepath, char** pbuffer)
+{
+	std::ifstream filestream(filepath, std::ios::binary | std::ios::ate);
+	if (filestream.fail()) return BAD_RETURN;
+
+	unsigned int size = filestream.tellg();
+	*pbuffer = new char(size);
+	filestream.seekg(0, std::ios::beg);
+	filestream.read((char*)*pbuffer, size);
+	filestream.close();
+	return size;
 }
 
 //External
@@ -133,19 +152,6 @@ bool Mem::In::ReadBuffer(PTR address, void* buffer, SIZE_T size)
 }
 
 unsigned int Mem::FileToArrayOfBytes(char* filepath, char** pbuffer)
-{
-	std::ifstream filestream(filepath, std::ios::binary | std::ios::ate);
-	if (filestream.fail()) return BAD_RETURN;
-
-	unsigned int size = filestream.tellg();
-	*pbuffer = new char(size);
-	filestream.seekg(0, std::ios::beg);
-	filestream.read((char*)*pbuffer, size);
-	filestream.close();
-	return size;
-}
-
-unsigned int Mem::FileToArrayOfBytes(wchar_t* filepath, char** pbuffer)
 {
 	std::ifstream filestream(filepath, std::ios::binary | std::ios::ate);
 	if (filestream.fail()) return BAD_RETURN;
