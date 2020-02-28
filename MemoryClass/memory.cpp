@@ -131,3 +131,29 @@ bool Mem::In::ReadBuffer(PTR address, void* buffer, SIZE_T size)
 	Mem::In::WriteBuffer((PTR)buffer, (void*)address, size);
 	return false;
 }
+
+unsigned int Mem::FileToArrayOfBytes(char* filepath, char** pbuffer)
+{
+	std::ifstream filestream(filepath, std::ios::binary | std::ios::ate);
+	if (filestream.fail()) return BAD_RETURN;
+
+	unsigned int size = filestream.tellg();
+	*pbuffer = new char(size);
+	filestream.seekg(0, std::ios::beg);
+	filestream.read((char*)*pbuffer, size);
+	filestream.close();
+	return size;
+}
+
+unsigned int Mem::FileToArrayOfBytes(wchar_t* filepath, char** pbuffer)
+{
+	std::ifstream filestream(filepath, std::ios::binary | std::ios::ate);
+	if (filestream.fail()) return BAD_RETURN;
+
+	unsigned int size = filestream.tellg();
+	*pbuffer = new char(size);
+	filestream.seekg(0, std::ios::beg);
+	filestream.read((char*)*pbuffer, size);
+	filestream.close();
+	return size;
+}

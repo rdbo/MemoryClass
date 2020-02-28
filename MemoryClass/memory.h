@@ -3,12 +3,16 @@
 #include <vector>
 #include <Windows.h>
 #include <TlHelp32.h>
+#include <fstream>
+#define BAD_RETURN -1
 
 typedef uintptr_t PTR;
 
 namespace Mem
 {
 	void CharToWChar(char str[], wchar_t buffer[]);
+	unsigned int FileToArrayOfBytes(char* filepath, char** pbuffer);
+	unsigned int FileToArrayOfBytes(wchar_t* filepath, char** pbuffer);
 	namespace Ex
 	{
 		HANDLE GetProcessHandle(DWORD pid);
